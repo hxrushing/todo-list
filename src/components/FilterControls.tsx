@@ -11,25 +11,25 @@ export function FilterControls() {
           className={filter === 'active' ? 'active' : ''}
           onClick={() => setFilter('active')}
         >
-          Active
+          进行中
         </button>
         <button
           className={filter === 'completed' ? 'active' : ''}
           onClick={() => setFilter('completed')}
         >
-          Completed
+          已完成
         </button>
         <button
           className={filter === 'active' ? 'active' : ''}
           onClick={() => setFilter('active')}
           style={{display: 'none'}} /* 隐藏默认激活的按钮 */
         >
-          Active
+          进行中
         </button>
       </div>
       <input
         type="text"
-        placeholder="Search tasks..."
+        placeholder="搜索任务..."
         value={searchTerm}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
           setSearchTerm(e.target.value)

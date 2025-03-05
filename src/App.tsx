@@ -13,7 +13,7 @@ export function App() {
   return (
     <div className={`app ${theme}`}>
       <div className="container">
-        <h1>Todo List</h1>
+        <h1>待办事项清单</h1>
         <ThemeToggle />
         <TodoForm />
         <FilterControls />

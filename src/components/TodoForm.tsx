@@ -22,15 +22,15 @@ export function TodoForm() {
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Add new task..."
+        placeholder="添加新任务..."
       />
       <select 
         value={category} 
         onChange={(e) => setCategory(e.target.value as Todo['category'])}
       >
-        <option value="personal">Personal</option>
-        <option value="work">Work</option>
-        <option value="shopping">Shopping</option>
+        <option value="personal">私人</option>
+        <option value="work">工作</option>
+        <option value="shopping">购物</option>
       </select>
       <button type="submit">
         <PlusCircleIcon className="icon" />

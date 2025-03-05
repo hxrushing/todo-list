@@ -53,9 +53,9 @@ export function TodoItem({ todo }: TodoItemProps) {
             )}
           </button>
           <button 
-            onClick={() => window.confirm('确定删除吗？') && deleteTodo(todo.id)}
+            onClick={() => window.confirm('确定要删除这个待办事项吗？') && deleteTodo(todo.id)}
             className="delete-btn"
-            aria-label="删除事项"
+            aria-label="删除"
           >
             <TrashIcon className="icon" />
           </button>

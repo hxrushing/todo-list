@@ -46,6 +46,9 @@
 body {
   font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.5;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .app {

@@ -10,9 +10,13 @@ interface TodoProviderProps {
 
 export function TodoProvider({ children }: TodoProviderProps) {
   const [todos, setTodos] = useLocalStorage<Todo[]>('todos', []);
-  const [filter, setFilter] = useState<'all' | 'completed' | 'active'>('all');
+  const [theme, setTheme] = useLocalStorage<'light'|'dark'>('theme', 'light');
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+  const [filter, setFilter] = useState<'all' | 'completed' | 'active'>('active');
   const [searchTerm, setSearchTerm] = useState('');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const startEdit = (id: number | null) => {
