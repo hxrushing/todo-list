@@ -1,0 +1,336 @@
+/* src/styles/main.css */
+:root {
+  /* 颜色变量 */
+  --primary-color: #646cff;
+  --success-color: #22c55e;
+  --danger-color: #ef4444;
+  --background-color: #ffffff;
+  --text-color: #213547;
+  --border-color: #e4e4e7;
+  --input-bg: #f4f4f5;
+  --hover-bg: #f8f8f8;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  /* 间距 */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* 过渡效果 */
+  --transition: all 0.2s ease-in-out;
+}
+
+/* 暗色主题 */
+.dark {
+  --background-color: #18181b;
+  --text-color: rgba(255, 255, 255, 0.92);
+  --border-color: #3f3f46;
+  --input-bg: #27272a;
+  --hover-bg: #2a2a2e;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--background-color);
+  color: var(--text-color);
+  transition: var(--transition);
+  padding: var(--spacing-lg);
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  font-size: 2.5rem;
+}
+
+/* Todo表单样式 */
+.todo-form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+
+  input, select, button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--input-bg);
+    color: var(--text-color);
+    transition: var(--transition);
+  }
+
+  input {
+    flex: 1;
+    &::placeholder {
+      color: #a1a1aa;
+    }
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    padding-right: var(--spacing-md);
+  }
+
+  button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+  }
+}
+
+/* Todo列表样式 */
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Todo单项样式 */
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm);
+  background: var(--input-bg);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  animation: slideIn 0.3s ease;
+
+  &.completed {
+    opacity: 0.7;
+    .todo-text {
+      text-decoration: line-through;
+    }
+  }
+
+  .todo-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex: 1;
+  }
+
+  .check-btn {
+    background: none;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    &:hover {
+      border-color: var(--primary-color);
+    }
+
+    &.checked .icon {
+      opacity: 1;
+      stroke: var(--success-color);
+    }
+  }
+
+  .todo-text {
+    flex: 1;
+  }
+
+  .category {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    text-transform: capitalize;
+
+    &.personal {
+      background: #f0f9ff;
+      color: #0ea5e9;
+    }
+    &.work {
+      background: #fef2f2;
+      color: #ef4444;
+    }
+    &.shopping {
+      background: #f0fdf4;
+      color: #22c55e;
+    }
+  }
+
+  .todo-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+
+    button {
+      background: none;
+      border: none;
+      padding: 0.25rem;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        stroke: var(--text-color);
+      }
+
+      &:hover {
+        background: var(--hover-bg);
+        
+        .icon {
+          stroke: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+
+/* 筛选控件样式 */
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+
+  .filter-buttons {
+    display: flex;
+    gap: var(--spacing-xs);
+
+    button {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: var(--transition);
+
+      &.active {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+      }
+
+      &:hover:not(.active) {
+        background: var(--hover-bg);
+      }
+    }
+  }
+
+  input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-color);
+  }
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text-color);
+  }
+
+  &:hover {
+    background: var(--hover-bg);
+    transform: rotate(20deg);
+  }
+}
+
+/* 动画 */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+
+  .todo-form {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+  }
+
+  .todo-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-xs);
+
+    .todo-actions {
+      justify-content: flex-end;
+    }
+  }
+}

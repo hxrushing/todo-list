@@ -1,0 +1,10 @@
+# Vite 默认忽略项
+node_modules
+dist
+.env.local
+.DS_Store
+
+# 自定义忽略项
+*.log
+.cache
+.idea
