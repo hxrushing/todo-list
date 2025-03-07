@@ -5,10 +5,21 @@ import { TodoForm } from './components/TodoForm';
 import { TodoItem } from './components/TodoItem';
 import { FilterControls } from './components/FilterControls';
 import { ThemeToggle } from './components/ThemeToggle';
+import { Pagination } from './components/Pagination';
+import type { Todo } from './types/todo';
 import { useTodoContext } from './hooks/useTodoContext';
 
 export function App() {
-  const { filteredTodos, theme } = useTodoContext();
+  const { 
+    paginatedTodos,
+    theme,
+    startEdit,
+    deleteTodo,
+    toggleTodo,
+    currentPage,
+    goToPage,
+    totalPages
+  } = useTodoContext();
 
   return (
     <div className={`app ${theme}`}>
@@ -18,10 +29,21 @@ export function App() {
         <TodoForm />
         <FilterControls />
         <div className="todo-list">
-          {filteredTodos.map((todo: any) => (
-            <TodoItem key={todo.id} todo={todo} />
+          {paginatedTodos.map((todo: Todo) => (
+            <TodoItem 
+              key={todo.id} 
+              todo={todo}
+              onToggle={toggleTodo}
+              onDelete={deleteTodo}
+              onEdit={startEdit}
+            />
           ))}
         </div>
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          goToPage={goToPage}
+        />
       </div>
     </div>
   );

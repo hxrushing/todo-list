@@ -6,12 +6,29 @@ import { Todo } from '../types/todo';
 
 interface TodoItemProps {
   todo: Todo;
+  onToggle: (id: number) => void;
+  onDelete: (id: number) => void;
+  onEdit: (id: number | null) => void;
 }
 
 export function TodoItem({ todo }: TodoItemProps) {
-  const { toggleTodo, deleteTodo, startEdit, editingId, updateTodoText } = useContext(TodoContext);
+  const { toggleTodo, deleteTodo, startEdit, editingId, updateTodo, todos, setTodos } = useContext(TodoContext);
   const [editText, setEditText] = useState(todo.text);
-  
+  const [editCategory, setEditCategory] = useState(todo.category);
+  const [editType, setEditType] = useState(todo.type);
+
+  const handleEdit = () => {
+    setEditText(todo.text);
+    setEditCategory(todo.category);
+    setEditType(todo.type);
+    startEdit(todo.id);
+  };
+
+  // 分页状态
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(todos.length / itemsPerPage);
+
   return (
     <CSSTransition timeout={300} classNames="todo-item-animation">
       <div className={`todo-item ${todo.completed ? 'completed' : ''}`} data-testid="todo-item">
@@ -24,21 +41,59 @@ export function TodoItem({ todo }: TodoItemProps) {
             <CheckIcon className="icon" />
           </button>
           {editingId === todo.id ? (
-            <input
-              type="text"
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-              className="edit-input"
-              onBlur={() => {
-                updateTodoText(todo.id, editText);
-                startEdit(null);
-              }}
-              autoFocus
-            />
+              <div className="edit-form">
+                <h3>
+                  <span>编辑事项详情</span>
+                </h3>
+                <div className="edit-form-fields">
+                  <input
+                    type="text"
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                    placeholder="编辑事项内容..."
+                  />
+                  <select
+                    value={editCategory}
+                    onChange={(e) => setEditCategory(e.target.value as Todo['category'])}
+                  >
+                    <option value="personal">个人事项</option>
+                    <option value="work">工作事项</option>
+                    <option value="shopping">购物事项</option>
+                  </select>
+                  <select
+                    value={editType}
+                    onChange={(e) => setEditType(e.target.value as Todo['type'])}
+                  >
+                    <option value="basic">普通</option>
+                    <option value="urgent">紧急</option>
+                    <option value="important">重要</option>
+                  </select>
+                  <button
+                    onClick={() => {
+                      updateTodo(todo.id, editText, editCategory, editType);
+                      startEdit(null);
+                    }}
+                    className="save-btn"
+                  >
+                    保存
+                  </button>
+                </div>
+              </div>
           ) : (
-            <span className="todo-text">{todo.text}</span>
+            <>
+              <span className={`todo-text todo-type-${todo.type}`}>{todo.text}</span>
+              <span className={`category ${todo.category}`}>
+                {todo.category === 'personal' ? '个人事项' :
+                 todo.category === 'work' ? '工作事项' :
+                 todo.category === 'shopping' ? '购物事项' : todo.category}
+              </span>
+              <span className={`type type-${todo.type}`}>
+                {todo.type === 'basic' ? '普通' :
+                 todo.type === 'urgent' ? '紧急' :
+                 todo.type === 'important' ? '重要' : todo.type}
+              </span>
+            </>
           )}
-          <span className={`category ${todo.category}`}>{todo.category}</span>
         </div>
         <div className="todo-actions">
           <button 
@@ -46,11 +101,7 @@ export function TodoItem({ todo }: TodoItemProps) {
             onClick={() => startEdit(todo.id)}
             aria-label="编辑事项"
           >
-            {editingId === todo.id ? (
-              <PencilIcon className="icon active" />
-            ) : (
-              <PencilIcon className="icon" />
-            )}
+            <PencilIcon className="icon" />
           </button>
           <button 
             onClick={() => window.confirm('确定要删除这个待办事项吗？') && deleteTodo(todo.id)}
