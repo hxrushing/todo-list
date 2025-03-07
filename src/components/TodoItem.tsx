@@ -42,9 +42,9 @@ export function TodoItem({ todo }: TodoItemProps) {
           </button>
           {editingId === todo.id ? (
               <div className="edit-form">
-                <h3>
+                <h2>
                   <span>编辑事项详情</span>
-                </h3>
+                </h2>
                 <div className="edit-form-fields">
                   <input
                     type="text"
